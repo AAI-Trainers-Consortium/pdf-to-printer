@@ -45,6 +45,7 @@ const print = (pdf, options = {}) => {
 
   if (!validDestination) {
     if (printer) {
+      if (printer.includes(' ')) printer = `"${printer}"`
       args.push("-print-to", printer);
     } else {
       args.push("-print-to-default");
