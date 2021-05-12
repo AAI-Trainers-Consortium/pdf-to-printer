@@ -22,7 +22,7 @@ const print = (pdf, options = {}) => {
 
   const args = [];
 
-  const { printer, win32 } = options;
+  let { printer, win32 } = options;
 
   if (win32) {
     if (!Array.isArray(win32)) throw "options.win32 should be an array";
@@ -45,7 +45,7 @@ const print = (pdf, options = {}) => {
 
   if (!validDestination) {
     if (printer) {
-      if (printer.includes(' ')) printer = `"${printer}"`
+      if (printer.includes(" ")) printer = `"${printer}"`;
       args.push("-print-to", printer);
     } else {
       args.push("-print-to-default");

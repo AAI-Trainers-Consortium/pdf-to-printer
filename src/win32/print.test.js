@@ -71,11 +71,12 @@ test("sends PDF file to the specific printer", () => {
 test("sends PDF file to the specific printer with a space in its name", () => {
   const filename = "assets/pdf-sample.pdf";
   const printer = "Microsoft Print to PDF";
+  const fixedPrinter = `"${printer}"`;
   const options = { printer };
   return print(filename, options).then(() => {
     expect(execAsync).toHaveBeenCalledWith("mocked_path_SumatraPDF.exe", [
       "-print-to",
-      printer,
+      fixedPrinter,
       "-silent",
       filename,
     ]);

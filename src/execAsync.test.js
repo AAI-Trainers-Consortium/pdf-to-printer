@@ -10,14 +10,16 @@ afterEach(() => {
   execFile.mockRestore();
 });
 
+const shell = process.platform === "win32";
 test("runs the passed command in a shell", () => {
   // override the implementation
-  execFile.mockImplementation((_, [], callback) => callback());
+  execFile.mockImplementation((_, [], { shell }, callback) => callback());
 
   return execAsync("my_command").then(() => {
     expect(execFile).toHaveBeenCalledWith(
       "my_command",
       [],
+      { shell },
       expect.any(Function)
     );
   });
@@ -26,7 +28,9 @@ test("runs the passed command in a shell", () => {
 test("fails with an error", () => {
   // override the implementation
 
-  execFile.mockImplementation((_, [], callback) => callback("error"));
+  execFile.mockImplementation((_, [], { shell }, callback) =>
+    callback("error")
+  );
 
   return expect(execAsync("my_command")).rejects.toBe("error");
 });
